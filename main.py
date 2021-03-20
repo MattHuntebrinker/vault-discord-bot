@@ -5,6 +5,7 @@ from bot import bot
 import pandas as pd
 import csv
 import random
+import re
 
 with open('config.json') as f:
     creds = json.load(f)
@@ -19,10 +20,14 @@ class handler():
     
     def receive(self, message):
         if message.content.startswith('$tv add'):
-            url = message.content.split("add",1)[1] 
-            self.add_video(message, url)
             name = str(message.author).split('#')[0]
-            return f'Thanks {name}, that shit has been added to the vault'
+            url = message.content.split("add",1)[1]
+            m = re.search(r"[a-zA-Z0-9_-]{11}$", str(message.content))
+            if m and 'watch?v=' in url:
+                self.add_video(message, url)
+                return f'Thanks {name}, that shit has been added to the vault'
+            else:
+                return f'Hey {name}, you shitbag, make sure the video you enter is legit'
             #url check
             
         elif message.content.startswith('$tv random'):
