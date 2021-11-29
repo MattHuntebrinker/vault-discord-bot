@@ -1,2 +1,4 @@
 config.json
 videoList.csv
+__pycache__/
+.DS_Store

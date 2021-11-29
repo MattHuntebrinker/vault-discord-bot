@@ -19,7 +19,7 @@ class handler():
 
     
     def receive(self, message):
-        if message.content.startswith('$tv add'):
+        if message.content.startswith('$vault add'):
             name = str(message.author).split('#')[0]
             url = message.content.split("add",1)[1]
             m = re.search(r"[a-zA-Z0-9_-]{11}$", str(message.content))
@@ -30,7 +30,7 @@ class handler():
                 return f'Hey {name}, you shitbag, make sure the video you enter is legit'
             #url check
             
-        elif message.content.startswith('$tv random'):
+        elif message.content.startswith('$vault random'):
             return self.random_video()
 
     def add_video(self, message, url):
