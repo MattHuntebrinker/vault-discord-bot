@@ -24,15 +24,6 @@ class handler():
         self.bot = bot()
         self.db = pymysql.connect(host=self.creds['endpoint'], user=self.creds['user'], password=self.creds['db_pass'])
         self.cursor = self.db.cursor()
-        self.cursor.execute('''select now()''')
-        print(self.cursor.fetchall())
-        self.cursor.execute('''use vault_db''')
-        print(self.cursor.fetchall())
-        self.cursor.execute('''show tables''')
-        print(self.cursor.fetchall())
-        self.cursor.execute('''select * from vault_db.vault''')
-        print(self.cursor.fetchall())
-
 
 
     
@@ -46,13 +37,16 @@ class handler():
                 return f'Thanks {name}, that shit has been added to the vault'
             else:
                 return f'Hey {name}, you shitbag, make sure the video you enter is legit'
+            
             #url check
             
         elif message.content.startswith('$vault random'):
             return self.random_video()
+        else:
+            pass
 
     def add_video(self, url, name):
-        self.cursor.execute("INSERT IGNORE INTO vault(url) VALUES('{0}')".format(url.strip()))
+        self.cursor.execute("INSERT IGNORE INTO vault_db.vault(url) VALUES('{0}')".format(url.strip()))
         print(self.cursor.fetchall())
         self.db.commit()
         
