@@ -29,26 +29,28 @@ class handler():
     
     def receive(self, message):
         if message.content.startswith('$vault add'):
-            name = str(message.author).split('#')[0]
-            url = message.content.split("add",1)[1]
-            m = re.search(r"[a-zA-Z0-9_-]{11}$", str(message.content))
-            if m and 'watch?v=' in url:
-                self.add_video(url, name)
-                return f'Thanks {name}, that shit has been added to the vault'
-            else:
-                return f'Hey {name}, you shitbag, make sure the video you enter is legit'
-            
-            #url check
-            
+            return self.add_video(message)
+
         elif message.content.startswith('$vault random'):
             return self.random_video()
         else:
             return None
 
-    def add_video(self, url, name):
-        self.cursor.execute("INSERT IGNORE INTO vault_db.vault(url) VALUES('{0}')".format(url.strip()))
-        print(self.cursor.fetchall())
-        self.db.commit()
+    def add_video(self, message):
+        name = str(message.author).split('#')[0]
+        url = message.content.split("add",1)[1]
+        m = re.search(r"[a-zA-Z0-9_-]{11}$", str(message.content))
+        if m and 'watch?v=' in url:
+            #do a check if video is in the vault already
+            self.cursor.execute("INSERT IGNORE INTO vault_db.vault(url) VALUES('{0}')".format(url.strip()))
+            print(self.cursor.fetchall())
+            self.db.commit()
+            return f'Thanks {name}, that shit has been added to the vault'
+        else:
+            return f'Hey {name}, you shitbag, make sure the video you enter is legit'
+            
+            #url check
+        
         
         #add success or failure
         
