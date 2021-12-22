@@ -43,7 +43,7 @@ class handler():
         elif message.content.startswith('$vault random'):
             return self.random_video()
         else:
-            pass
+            return None
 
     def add_video(self, url, name):
         self.cursor.execute("INSERT IGNORE INTO vault_db.vault(url) VALUES('{0}')".format(url.strip()))
@@ -79,8 +79,8 @@ async def on_message(message):
         return
 
     resp = handler.receive(message)
-
-    await message.channel.send(resp)
+    if resp:
+        await message.channel.send(resp)
 
     # if message.content.startswith('!tv add'):
     #     await message.channel.send('Hello!')

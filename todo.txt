@@ -1,0 +1,2 @@
+Add a $vault help function
+add url if it includes more than what is supposed to
