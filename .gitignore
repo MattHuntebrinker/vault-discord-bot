@@ -3,5 +3,6 @@ videoList.csv
 __pycache__/
 .DS_Store
 *.pem
+*.ppk
 .ipynb_checkpoints
 env/
